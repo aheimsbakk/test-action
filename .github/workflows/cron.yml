@@ -1,3 +1,5 @@
+name: Cron
+
 on:
    schedule:
     - cron:  '40 * * * *'
@@ -6,6 +8,7 @@ env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: test-action
 
+jobs:
   push:
     strategy:
       matrix:
