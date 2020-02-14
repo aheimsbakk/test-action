@@ -1,0 +1,38 @@
+on:
+   schedule:
+    - cron:  '40 * * * *'
+
+env:
+  # TODO: Change variable to your image's name.
+  IMAGE_NAME: test-action
+
+  push:
+    strategy:
+      matrix:
+        refs: [refs/heads/master, refs/tags/v1, refs/tags/v1.1]
+
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ matrix.refs }}
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag image
+
+      - name: Log into registry
+        run: echo "${{ secrets.HUB_PASS }}" | docker login docker.io -u ${{ secrets.HUB_USER }} --password-stdin
+
+      - name: Push image
+        run: |
+          IMAGE_ID=docker.io/${{ secrets.HUB_USER }}/$IMAGE_NAME
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
