@@ -2,7 +2,7 @@ name: Cron
 
 on:
    schedule:
-    - cron:  '05 * * * *'
+    - cron:  '10 * * * *'
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: test-action
@@ -12,9 +12,9 @@ jobs:
     strategy:
       matrix:
         refs:
-          - refs/heads/master
-          - refs/tags/v1
-          - refs/tags/v1.1
+          - master
+          - v1
+          - v1.1
 
     runs-on: ubuntu-latest
 
