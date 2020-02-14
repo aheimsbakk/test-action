@@ -51,11 +51,11 @@ jobs:
         run: docker build . --file Dockerfile --tag image
 
       - name: Log into registry
-        run: echo "${{ secrets.HUB_PASS }}" | docker login hub.docker.com -u ${{ HUB_USER }} --password-stdin
+        run: echo "${{ secrets.HUB_PASS }}" | docker login hub.docker.com -u ${{ secret.HUB_USER }} --password-stdin
 
       - name: Push image
         run: |
-          IMAGE_ID={{ HUB_USER }}//$IMAGE_NAME
+          IMAGE_ID={{ secret.HUB_USER }}//$IMAGE_NAME
 
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
