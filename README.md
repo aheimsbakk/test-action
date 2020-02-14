@@ -1,5 +1,5 @@
 # Test GitHub Action
 
-![Docker](workflows/Docker/badge.svg)
+![Build](../../workflows/Docker/badge.svg)
 
 Just testing.
