@@ -2,8 +2,8 @@
 
 | Build | Status |
 | --- | --- |
-| on push | ![](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=push) |
-| on schedule | ![Schedule](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=schedule) |
+| On push | ![](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=push) |
+| On schedule | ![Schedule](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=schedule) |
 
 ## HowTo
 
