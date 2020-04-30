@@ -15,11 +15,11 @@ on:
 
   # schedule full rebuild and push on schedule, see todos
   schedule:
-    - cron:  '3 13 */2 * *'
+    - cron:  '3 */6 * * *'
 
 env:
   # TODO: remember to update version on new tag
-  LATEST_TAG: 1.0.5
+  LATEST_TAG: 1.0.6
   DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
   DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }}
 
@@ -39,6 +39,7 @@ jobs:
           - 1.0.3
           - 1.0.4
           - 1.0.5
+          - 1.0.6
     steps:
       - uses: actions/checkout@v2
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
@@ -53,7 +54,7 @@ jobs:
 
           # tag and push versions X.X and X and latest
           if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
-            for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
+            for VERSION in $(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest; do
               export VERSION
               echo VERSION=$VERSION
               docker-compose build
@@ -87,7 +88,7 @@ jobs:
 
           # tag and push versions X.X and X and latest
           if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
-            for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
+            for VERSION in $(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest; do
               export VERSION
               echo VERSION=$VERSION
               docker-compose build
