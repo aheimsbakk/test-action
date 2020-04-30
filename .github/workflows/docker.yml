@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: log into registry
-        run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_PASS --password-stdin
+        run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
 
       - name: build and push image
         run: |
