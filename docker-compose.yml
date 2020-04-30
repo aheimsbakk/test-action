@@ -1,0 +1,9 @@
+---
+version: '3.4'
+
+services:
+  image:
+    image: docker.io/aheimsbakk/test-action:${VERSION:-latest}
+    build:
+      context: .
+
