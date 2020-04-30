@@ -1,25 +1,30 @@
 name: docker
 
-# FIXME: add yaml anchors when GitHub supports it
+# FIXME: add yaml anchors when GitHub supports it,
+# strange that they don't
 
 on:
   push:
-    # publish image as :bleeding or on new tag
+    # publish image as master=bleeding or on new tag
+    # except on document and ci changes
     branches:
       - master
     tags:
       - '*'
     paths-ignore:
       - '**.md'
+      - '.github/workflows/*yml'
 
   # always run tests on merge
+  # except on document and ci changes
   pull_request:
     paths-ignore:
       - '**.md'
+      - '.github/workflows/*yml'
 
   # schedule full rebuild and push on schedule, see todos
   schedule:
-    - cron:  '3 */6 * * *'
+    - cron:  '3 */1 * * *'
 
 env:
   # TODO: remember to update version on new tag
