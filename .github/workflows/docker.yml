@@ -18,8 +18,8 @@ on:
     - cron:  '3 13 */2 * *'
 
 env:
-  DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }
-  DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }
+  DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+  DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }}
 
 jobs:
   test:
