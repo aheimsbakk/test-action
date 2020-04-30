@@ -48,7 +48,7 @@ jobs:
           docker-compose push
 
           # tag and push versions X.X and X and latest
-          if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && "$LATEST_TAG" == "$VERSION"; then
+          if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
             for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
               export VERSION
               docker-compose build
@@ -80,7 +80,7 @@ jobs:
           docker-compose push
 
           # tag and push versions X.X and X and latest
-          if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && "$LATEST_TAG" == "$VERSION"; then
+          if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
             for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
               export VERSION
               docker-compose build
