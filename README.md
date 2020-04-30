@@ -1,6 +1,6 @@
 # Test GitHub Action
 
-^ Status ^  ^
+| Status |  |
 | --- | --- |
 | On push | ![](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=push) |
 | On schedule | ![Schedule](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=schedule) |
