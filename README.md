@@ -12,3 +12,18 @@
 0. Tag repository with same tag as `LATEST_TAG`.
 0. `git push`
 0. `git push --tags`
+
+## Test
+
+`docker-compose.test.yml` contains `sut` with that includes test suites.
+
+## Vagrant
+
+Test `docker-compose.yml` to build docker locally with
+
+    vagrant up
+
+<!---
+# vim: set spell spelllang=en:
+-->
+
