@@ -19,7 +19,7 @@ on:
 
 env:
   # TODO: remember to update version on new tag
-  LATEST_TAG: 1.0.3
+  LATEST_TAG: 1.0.4
   DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
   DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }}
 
@@ -37,6 +37,7 @@ jobs:
           - 1.0.1
           - 1.0.2
           - 1.0.3
+          - 1.0.4
     steps:
       - uses: actions/checkout@v2
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
