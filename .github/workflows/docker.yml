@@ -1,12 +1,5 @@
 name: docker
 
-x-strategy:
-  &schedule-matrix
-  matrix:
-    refs:
-      - master
-      - 1.0.0
-
 on:
   push:
     # publish image as :bleeding or new tag
@@ -74,7 +67,11 @@ jobs:
   shcedule-push:
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule'
-    strategy: *schedule-matrix
+    strategy:
+      matrix:
+        refs:
+          - master
+          - 1.0.0
 
     steps:
       - uses: actions/checkout@v2
