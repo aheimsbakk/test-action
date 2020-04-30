@@ -1,52 +1,59 @@
 name: docker
 
+# FIXME: add yaml anchors when GitHub supports it
+
 on:
   push:
-    # publish image as :bleeding or new tag
+    # publish image as :bleeding or on new tag
     branches:
       - master
     tags:
       - '*'
 
-  # always check on merge
+  # always run tests on merge
   pull_request:
 
-  # schedule full rebuild and push every secon day
-  # remember to update matrix with current tags
-  # TODO: is it possible to automatic parse refs?
+  # schedule full rebuild and push on schedule, see todos
   schedule:
     - cron:  '3 13 */2 * *'
 
 env:
+  # TODO: remember to update version on new tag
+  LATEST_TAG: 1.0.0
   DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
   DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }}
 
-defaults:
-  steps:
-    - uses: actions/checkout@v2
-    - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
-    - run: |
-        export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-        [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
-        [ "$VERSION" == "master" ] && export VERSION=bleeding
-
-        echo VERSION=$VERSION
-
-        docker-compose build
-        docker-compose push
-
-        # tag and push versions X.X and X
-        if echo $VERSION | grep -qE '\w+\.\w+\.\w+'; then
-          export VERSION=$(echo $VERSION | sed -E 's/^(\w+\.\w+).*/\1/')
-          docker-compose build
-          docker-compose push
-
-          export VERSION=$(echo $VERSION | sed -E 's/^(\w+).*/\1/')
-          docker-compose build
-          docker-compose push
-        fi
-
 jobs:
+  shcedule-push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    strategy:
+      matrix:
+        # FIXME: is it possible to automatic parse refs?
+        # TODO: remember to add new tags to schedule
+        refs:
+          - master
+          - 1.0.0
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
+      - run: |
+          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "master" ] && export VERSION=bleeding
+
+          docker-compose build
+          docker-compose push
+
+          # tag and push versions X.X and X and latest
+          if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && "$LATEST_TAG" == "$VERSION"; then
+            for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
+              export VERSION
+              docker-compose build
+              docker-compose push
+            done
+          fi
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -59,12 +66,22 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
+      - run: |
+          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
+          [ "$VERSION" == "master" ] && export VERSION=bleeding
 
-  shcedule-push:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'schedule'
-    strategy:
-      matrix:
-        refs:
-          - master
-          - 1.0.0
+          docker-compose build
+          docker-compose push
+
+          # tag and push versions X.X and X and latest
+          if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && "$LATEST_TAG" == "$VERSION"; then
+            for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
+              export VERSION
+              docker-compose build
+              docker-compose push
+            done
+          fi
