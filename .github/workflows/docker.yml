@@ -54,7 +54,6 @@ jobs:
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
       - run: |
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
           [ "$VERSION" == "master" ] && export VERSION=bleeding
 
           echo VERSION=$VERSION
@@ -88,7 +87,6 @@ jobs:
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
       - run: |
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
           [ "$VERSION" == "master" ] && export VERSION=bleeding
 
           echo VERSION=$VERSION
