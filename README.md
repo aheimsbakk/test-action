@@ -1,7 +1,7 @@
 # Test GitHub Action
 
-![Docker](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=push)
-![Schedule](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=schedule)
+Push: ![Docker](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=push)
+Schedule: ![Schedule](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=schedule)
 
 ## HowTo
 
