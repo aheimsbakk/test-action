@@ -19,7 +19,7 @@ on:
 
 env:
   # TODO: remember to update version on new tag
-  LATEST_TAG: 1.0.4
+  LATEST_TAG: 1.0.5
   DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
   DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }}
 
@@ -38,6 +38,7 @@ jobs:
           - 1.0.2
           - 1.0.3
           - 1.0.4
+          - 1.0.5
     steps:
       - uses: actions/checkout@v2
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
@@ -46,6 +47,7 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
           [ "$VERSION" == "master" ] && export VERSION=bleeding
 
+          echo VERSION=$VERSION
           docker-compose build
           docker-compose push
 
@@ -53,6 +55,7 @@ jobs:
           if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
             for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
               export VERSION
+              echo VERSION=$VERSION
               docker-compose build
               docker-compose push
             done
@@ -78,6 +81,7 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$(echo $VERSION | sed -e 's/^v//')
           [ "$VERSION" == "master" ] && export VERSION=bleeding
 
+          echo VERSION=$VERSION
           docker-compose build
           docker-compose push
 
@@ -85,6 +89,7 @@ jobs:
           if echo "$VERSION" | grep -qE '^\w+\.\w+\.\w+$' && [ "$LATEST_TAG" == "$VERSION" ]; then
             for VERSION in "$(echo $VERSION | cut -d. -f1,2) $(echo $VERSION | cut -d. -f1) latest"; do
               export VERSION
+              echo VERSION=$VERSION
               docker-compose build
               docker-compose push
             done
