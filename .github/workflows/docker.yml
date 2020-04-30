@@ -9,9 +9,13 @@ on:
       - master
     tags:
       - '*'
+    paths-ignore:
+      - '**.md'
 
   # always run tests on merge
   pull_request:
+    paths-ignore:
+      - '**.md'
 
   # schedule full rebuild and push on schedule, see todos
   schedule:

@@ -1,7 +1,14 @@
 # Test GitHub Action
 
-![Build](../../workflows/Docker/badge.svg)
+![Docker](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=push)
+![Schedule](https://github.com/aheimsbakk/test-action/workflows/docker/badge.svg?event=schedule)
 
-![Cron](https://github.com/aheimsbakk/test-action/workflows/Cron/badge.svg)
+## HowTo
 
-Just testing.
+1. Update `.github/workflows/docker.yml` with tags.
+  * Add new tag.
+  * Set environment `LATEST_TAG`.
+0. Commit to repository.
+0. Tag repository with same tag as `LATEST_TAG`.
+0. `git push`
+0. `git push --tags`
