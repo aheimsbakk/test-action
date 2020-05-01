@@ -24,7 +24,7 @@ on:
 
   # schedule full rebuild and push on schedule, see todos
   schedule:
-    - cron:  '13 3 */2 * *'
+    - cron:  '13 3 * * *'
 
 env:
   # TODO: remember to update version on new tag
