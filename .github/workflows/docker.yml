@@ -41,6 +41,7 @@ jobs:
         # FIXME: is it possible to automatic parse refs?
         # TODO: remember to add new tags to schedule
         refs:
+          - master
           - 1.0.0
           - 1.0.1
           - 1.0.2
@@ -56,7 +57,7 @@ jobs:
       - run: |
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$VERSION
-          [ "$VERSION" == "master" ] && export VERSION=bleeding
+          [ "$VERSION" == "master" ] && export VERSION=dev
 
           echo GITHUB_REF=${{ github.ref }}
           echo VERSION=$VERSION
@@ -91,7 +92,7 @@ jobs:
       - run: |
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$VERSION
-          [ "$VERSION" == "master" ] && export VERSION=bleeding
+          [ "$VERSION" == "master" ] && export VERSION=dev
 
           echo VERSION=$VERSION
           docker-compose build
