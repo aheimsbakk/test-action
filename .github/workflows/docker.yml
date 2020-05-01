@@ -54,8 +54,10 @@ jobs:
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
       - run: |
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$VERSION
           [ "$VERSION" == "master" ] && export VERSION=bleeding
 
+          echo GITHUB_REF=${{ github.ref }}
           echo VERSION=$VERSION
           docker-compose build
           docker-compose push
@@ -87,6 +89,7 @@ jobs:
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
       - run: |
           export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$VERSION
           [ "$VERSION" == "master" ] && export VERSION=bleeding
 
           echo VERSION=$VERSION
