@@ -24,7 +24,7 @@ on:
 
   # schedule full rebuild and push on schedule, see todos
   schedule:
-    - cron:  '*/10 * * * *'
+    - cron:  '13 3 */2 * *'
 
 env:
   # TODO: remember to update version on new tag
@@ -42,12 +42,6 @@ jobs:
         # TODO: remember to add new tags to schedule
         ref:
           - master
-          - 1.0.0
-          - 1.0.1
-          - 1.0.2
-          - 1.0.3
-          - 1.0.4
-          - 1.0.5
           - 1.0.6
     steps:
       - uses: actions/checkout@v2
