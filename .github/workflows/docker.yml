@@ -40,7 +40,7 @@ jobs:
       matrix:
         # FIXME: is it possible to automatic parse refs?
         # TODO: remember to add new tags to schedule
-        refs:
+        ref:
           - master
           - 1.0.0
           - 1.0.1
@@ -52,14 +52,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: refs/tags/${{ matrix.refs }}
+          ref: ${{ matrix.ref }}
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
       - run: |
-          export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && export VERSION=$VERSION
+          export VERSION=$(echo "${{ matrix.ref }}"
           [ "$VERSION" == "master" ] && export VERSION=dev
 
-          echo GITHUB_REF=${{ github.ref }}
+          echo GITHUB_REF=${{ matrix.ref }}
           echo VERSION=$VERSION
           docker-compose build
           docker-compose push
