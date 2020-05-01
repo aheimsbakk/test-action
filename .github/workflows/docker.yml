@@ -55,10 +55,9 @@ jobs:
           ref: ${{ matrix.ref }}
       - run: echo $DOCKER_HUB_PASS | docker login docker.io -u $DOCKER_HUB_USER --password-stdin
       - run: |
-          export VERSION=$(echo "${{ matrix.ref }}")
+          export VERSION=${{ matrix.ref }}
           [ "$VERSION" == "master" ] && export VERSION=dev
 
-          echo GITHUB_REF=${{ matrix.ref }}
           echo VERSION=$VERSION
           docker-compose build
           docker-compose push
